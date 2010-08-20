@@ -48,7 +48,7 @@ DropioApiClient = (function(){
   function api(key, path, options){
     options = options || {};
     this.api_key = key;
-    this.xd_path = api.xd_path = path || DEFAULT_XR_SRC;
+    this.xd_path = api.xd_path = path || this.xd_path;
     if (options.version)
       this.version = options.version;
     if (options === true)
