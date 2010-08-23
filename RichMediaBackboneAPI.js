@@ -159,11 +159,6 @@ DropioApiClient = (function(){
         this.sendApiRequest(ASSET_PATH(params), DELETE, params, callback);
     },
 
-    sendAsset : function(params, callback){
-      if (isValidDropAndAsset(params, callback))
-        this.sendApiRequest(ASSET_PATH(params) + "/send_to", POST, params, callback);
-    },
-
     copyAsset : function(params, callback){
       if (isValidDropAndAsset(params, callback))
         this.sendApiRequest(ASSET_PATH(params) + "/copy", POST, params, callback);
