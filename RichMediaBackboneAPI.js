@@ -25,12 +25,6 @@ DropioApiClient = (function(){
     ASSET_PATH = function(params){
       return ASSETS_PATH(params) + "/" + params.asset_name;
     },
-    COMMENTS_PATH = function(params){
-      return ASSET_PATH(params) + "/comments";
-    },
-    COMMENT_PATH = function(params){
-      return COMMENTS_PATH(params) + params.comment_id;
-    },
     PINGBACKS_PATH = function(params){
       return DROP_PATH(params) + "/subscriptions";
     },
@@ -182,31 +176,6 @@ DropioApiClient = (function(){
     moveAsset : function(params, callback){
       if (isValidDropAndAsset(params, callback))
         this.sendApiRequest(ASSET_PATH(params) + "/move", POST, params, callback);
-    },
-
-    getCommentList : function(params, callback){
-      if (isValidDropAndAsset(params, callback))
-        this.sendApiRequest(COMMENTS_PATH(params), GET, params, callback);
-    },
-
-    createComment : function(params, callback){
-      if (isValidDropAndAsset(params, callback))
-        this.sendApiRequest(COMMENTS_PATH(params), POST, params, callback);
-    },
-
-    getComment : function(params, callback){
-      if (isValidDropAndAssetAndComment(params, callback))
-        this.sendApiRequest(COMMENT_PATH(params), GET, params, callback);
-    },
-
-    updateComment : function(params, callback){
-      if (isValidDropAndAssetAndComment(params, callback))
-        this.sendApiRequest(COMMENT_PATH(params), PUT, params, callback);
-    },
-
-    deleteComment : function(params, callback){
-      if (isValidDropAndAssetAndComment(params, callback))
-        this.sendApiRequest(COMMENT_PATH(params), DELETE, params, callback);
     },
 
     createPingback : function(params, callback){
@@ -475,10 +444,6 @@ DropioApiClient = (function(){
   
   function isValidDropAndAsset(params, callback) {
     return (isValid(params.name, callback) && isValid(params.asset_name, callback));
-  }
-  
-  function isValidDropAndAssetAndComment(params, callback) {
-    return (isValid(params.name, callback) && isValid(params.asset_name, callback) && isValid(params.comment_id, callback));
   }
   
   function isValidDropAndSubscription(params, callback) {
