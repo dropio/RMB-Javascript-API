@@ -124,10 +124,6 @@ DropioApiClient = (function(){
         this.sendApiRequest(DROP_PATH(params), DELETE, params, callback);
     },
 
-    createFile : function(){ 
-      // Firefox only
-    },
-
     createFileFromUrl : function(params, callback){
       if (isValidDrop(params, callback))
         this.sendApiRequest(ASSETS_PATH(params), POST, params, callback);
