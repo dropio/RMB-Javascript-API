@@ -207,11 +207,12 @@ DropioApiClient = (function(){
       params.format = "html";
       params.version = this.version;
       params.token = params.token || "";
+      params.drop_name = params.name;
       var target,
         drop = params.name,
         div = forge("div"),
         form = forge("form", {
-          action : UPLOAD_HOST + params.name + "/upload",
+          action : UPLOAD_HOST + "upload",
           method : POST,
           enctype : "multipart/form-data",
           encoding : "multipart/form-data", // for IE
@@ -243,11 +244,11 @@ DropioApiClient = (function(){
           type : "submit",
           value : options.submit_button_label || "Upload",
           className : options.submit_button_css || "",
-          id : options.submit_button_id || "",
-          onclick : function(){
-            DropioApiClient.AIM.submitUploadForm(form.id, callback);
-          }
+          id : options.submit_button_id || ""
         });
+        submit.onclick = function(){
+          DropioApiClient.AIM.submitUploadForm(form.id, callback);
+        };
         form.appendChild(submit);
       }
       
@@ -299,6 +300,7 @@ DropioApiClient = (function(){
     
     call_in_progress : false,
     watchers : [],
+    callbacks : {},
     responseJSON : "",
     
     addWatcherIframe : function(name, upload) {
@@ -332,20 +334,21 @@ DropioApiClient = (function(){
           },
           src : "about:blank",
           name : unique_name,
-          id : unique_name,
-          onload : "DropioApiClient.AIM.addWatcherIframe(\"" + unique_name + "\"," + upload + ");"
+          id : unique_name
         });
       div.appendChild(iframe);
+      iframe.onload = function(){
+        DropioApiClient.AIM.addWatcherIframe(unique_name, upload);
+      };
+      DropioApiClient.AIM.callbacks[unique_name] = callback;
       document.body.appendChild(div);
-      var target = document.getElementById(unique_name);
-      target.onComplete = callback;
       form.target = unique_name;
       form.submit();
     },
     
-    submitUploadForm : function(id) {
+    submitUploadForm : function(id, callback) {
       var form = document.getElementById(id);
-      DropioApiClient.AIM.submit(form, form.onsubmit, true);
+      DropioApiClient.AIM.submit(form, callback, true);
     },
     
     parseResult : function(id, json, more) {
@@ -361,8 +364,10 @@ DropioApiClient = (function(){
       json = parseJSON(json);
       
       var iframe = document.getElementById(id);
-      if (iframe)
-        iframe.onComplete(json, json.response !== "Failure");
+      if (iframe) {
+        DropioApiClient.AIM.callbacks[id](json, json.response !== "Failure");
+      }
+        
       
       DropioApiClient.AIM.responseJSON = "";
       DropioApiClient.AIM.call_in_progress = false;
