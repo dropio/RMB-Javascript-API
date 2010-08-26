@@ -203,7 +203,7 @@ DropioApiClient = (function(){
       if (!params)
         return false;
       options = options || {};
-      params = cleanParams(params, this.api_key, this.version);
+      params = cleanParams(params, this.api_key, this.version, true);
       params.format = "html";
       params.version = this.version;
       params.token = params.token || "";
@@ -211,7 +211,7 @@ DropioApiClient = (function(){
         drop = params.name,
         div = forge("div"),
         form = forge("form", {
-          action : UPLOAD_HOST + "/upload",
+          action : UPLOAD_HOST + params.name + "/upload",
           method : POST,
           enctype : "multipart/form-data",
           encoding : "multipart/form-data", // for IE
