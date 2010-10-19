@@ -1,6 +1,6 @@
 /*
-drop.io JavaScript API Client
-http://backbonedocs.drop.io/Javascript-API-client-library
+RMB JavaScript API Client
+http://docs.rmb.io/Javascript-API-client-library
 
 Copyright (c) 2010 drop.io
 Licensed under the MIT license: 
@@ -10,9 +10,9 @@ http://www.opensource.org/licenses/mit-license.php
 DropioApiClient = (function(){
   
   var undefined,
-    HOST = "http://drop.io/",
-    API_HOST = "http://api.drop.io/",
-    UPLOAD_HOST = "http://assets.drop.io/",
+    HOST = "http://rmb.io/",
+    API_HOST = "http://api.rmb.io/",
+    UPLOAD_HOST = "http://u.rmb.io/",
     DEFAULT_XR_SRC = "/DropioJSClientXDReceiver.html",
     
     DROPS_PATH = API_HOST + "drops",
